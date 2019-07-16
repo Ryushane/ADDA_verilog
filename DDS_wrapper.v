@@ -26,7 +26,8 @@ module DDS_wrapper#(
     input clk,
     input rst,
     output reg wr_en,
-    output [13:0] dds_usout // unsigned
+    output [13:0] dds_usout, // unsigned
+    output [13:0] dds_out // signed
 );
 
 reg s_axis_phase_tvalid;

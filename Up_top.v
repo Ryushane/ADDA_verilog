@@ -27,8 +27,8 @@ module Up_top#(
     // parameter       DATAWIDTH = 14
 )
 (                 
-    input clk,
-    input rst_n,
+    input clk_in,
+    input rst_in,
     input wr_en,
     input[FIFO_WIDTH-1:0] wr_data,
     
@@ -46,15 +46,15 @@ module Up_top#(
 
 
     fifo #(.FIFO_WIDTH(FIFO_WIDTH), .FIFO_DEPTH(FIFO_DEPTH)) u_fifo(
-        .clk                             ( clk     ),
-        .rst_n                           ( rst_n   ),
+        .clk                             ( clk_in     ),
+        .rst_n                           ( rst_in   ),
         .wr_en                           ( wr_en   ),
         .wr_data                         ( wr_data ),
         .rd_en                           ( rd_en   ),
 
         .fifo_full                       ( fifo_full  ),
         .fifo_almst_full                 ( fifo_almst_full ),
-        .fifo_count                      ( fifo_count ),
+        // .fifo_count                      ( fifo_count ),
         .rd_data                         ( rd_data ),
         .fifo_empty                      ( fifo_empty ),
         .fifo_almst_empty                ( fifo_almst_empty ),

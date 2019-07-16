@@ -21,43 +21,42 @@
 
 module interpolation#(
     parameter SAMPLE_RATE = 4,
-    parameter DATAWIDTH = 14
+    parameter DATA_WIDTH = 14
     )
     (
     input clk,
     input rst,
     input ena, // 接上一级fifo的above half, above half 就算 rst_done，然后一直传输
-    input[DATAWIDTH-1:0] dataIn, // unsigned type
-    output [DATAWIDTH-1:0] inter_data, // unsigned type
-
-    output reg rd_en
+    output reg rd_en,
+    input[DATA_WIDTH-1:0] dataIn, // unsigned type
+    output [DATA_WIDTH-1:0] inter_data // unsigned type
     );
 
     reg[SAMPLE_RATE-1:0] us_counter;
 
     reg rst_done;
 
-    reg signed[DATAWIDTH-1:0] predata;
-    reg signed[DATAWIDTH-1:0] latdata;
-    reg signed[DATAWIDTH-1+SAMPLE_RATE:0] latdata_ext;
-    reg signed[DATAWIDTH-1+SAMPLE_RATE:0] s_data_ext; //
-    // wire[DATAWIDTH-1:0] interval;
-    wire signed[DATAWIDTH:0] interval;
+    reg signed[DATA_WIDTH-1:0] predata;
+    reg signed[DATA_WIDTH-1:0] latdata;
+    reg [DATA_WIDTH-1+SAMPLE_RATE:0] latdata_ext;
+    reg signed[DATA_WIDTH-1+SAMPLE_RATE:0] s_data_ext; //
+    // wire[DATA_WIDTH-1:0] interval;
+    wire signed[DATA_WIDTH:0] interval;
 
     wire h_bit;
     // 这里需要有符号数转无符号数
-    assign h_bit = (s_data_ext[DATAWIDTH-1+SAMPLE_RATE] == 1) ? 1'b0 : 1'b1;
-    assign inter_data = { h_bit, s_data_ext[DATAWIDTH-2+SAMPLE_RATE:SAMPLE_RATE]};
+    assign h_bit = (s_data_ext[DATA_WIDTH-1+SAMPLE_RATE] == 1) ? 1'b0 : 1'b1;
+    assign inter_data = { h_bit, s_data_ext[DATA_WIDTH-2+SAMPLE_RATE:SAMPLE_RATE]};
 
     // datain to signed data in
     wire dataIn_hbit;
-    wire signed[DATAWIDTH-1:0] s_dataIn;
-    assign dataIn_hbit = (dataIn[DATAWIDTH-1] == 1) ? 1'b0 : 1'b1;
-    assign s_dataIn = {dataIn_hbit, dataIn[DATAWIDTH-2:0]};
+    wire signed[DATA_WIDTH-1:0] s_dataIn;
+    assign dataIn_hbit = (dataIn[DATA_WIDTH-1] == 1) ? 1'b0 : 1'b1;
+    assign s_dataIn = {dataIn_hbit, dataIn[DATA_WIDTH-2:0]};
 
 
 
-    // wire signed[DATAWIDTH-1+SAMPLE_RATE:0] us_out[(1<<SAMPLE_RATE)-1:0];
+    // wire signed[DATA_WIDTH-1+SAMPLE_RATE:0] us_out[(1<<SAMPLE_RATE)-1:0];
 
     // reg signed inter_data;
 
@@ -94,7 +93,7 @@ module interpolation#(
         end
         else if(rd_en == 1)
             rd_en <= ~rd_en;
-        else if((us_counter == ((1<<SAMPLE_RATE) - 1)) && ena)
+        else if((us_counter == (1<<SAMPLE_RATE) - 1))
             rd_en <= 1;
     end
 
@@ -113,9 +112,9 @@ module interpolation#(
     end
     // latdata convert to signed data for interpolation
     wire latdata_hbit;
-    wire [DATAWIDTH-1+SAMPLE_RATE:0] s_latdata_ext;
-    assign latdata_hbit = (latdata_ext[DATAWIDTH-1+SAMPLE_RATE] == 1) ? 1'b0 : 1'b1;
-    assign s_latdata_ext = {latdata_hbit, latdata_ext[DATAWIDTH-2+SAMPLE_RATE:0] };
+    wire [DATA_WIDTH-1+SAMPLE_RATE:0] s_latdata_ext;
+    assign latdata_hbit = (latdata_ext[DATA_WIDTH-1+SAMPLE_RATE] == 1) ? 1'b0 : 1'b1;
+    assign s_latdata_ext = {latdata_hbit, latdata_ext[DATA_WIDTH-2+SAMPLE_RATE:0] };
 
 
     assign interval = (latdata - predata);
