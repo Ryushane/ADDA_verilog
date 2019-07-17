@@ -20,9 +20,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module top#(
-    parameter       DATA_WIDTH = 14,
-    parameter       SAMPLE_RATE = 4
+module top_nosp#(
+    parameter       DATA_WIDTH = 14
 )
 (
     input clk_in,
@@ -110,25 +109,20 @@ module top#(
     );
 
 
-    wire[DATA_WIDTH-1+SAMPLE_RATE:0] dsoutdata;
-    DOWNSAMP #(
-        .SAMPLE_RATE(SAMPLE_RATE),
+    wire[DATA_WIDTH-1:0] dsoutdata;
+    NO_DOWNSAMP #(
         .DATA_WIDTH(DATA_WIDTH)
     )
-    downsamp_inst
+    no_downsamp_inst
     (
-        .clk                             ( clkadc    ),
-        .rst                             ( rst       ),
-        .ena                             ( 1         ),
         .dataIn                          ( adcdatB ),
         .dsoutdata                       ( dsoutdata ),
         .out_en                          ( out_en    ),
-
         .outbusy                         (inwr_rst_busy)
     ); 
 
 
-    wire[DATA_WIDTH-1+SAMPLE_RATE:0] inrd_data;
+    wire[DATA_WIDTH-1:0] inrd_data;
     fifo_generator_in infifo(
         .rst(rst),
         .wr_clk(clkadc),
