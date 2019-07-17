@@ -3,19 +3,19 @@
 ## 文件列表
 
 ```
-ADC_DRIVER.v		// ADC驱动
-DAC_DRIVER.v		// DAC驱动
-DDS_wrapper.v		// 测试用DDS模块，可选择输出signed or unsigned的数据
-DOWNSAMP.v			// 下采样模块，可配置参数为SAMPLE_RATE. 即每隔2^(SAMPLE_RATE)输出一次
-HALF_AMP.v			// 测试用DSP模块，目前配置为原样输出
-INTERPOLATION.v		// 插值模块，同样配置参数为SAMPLE_RATE
-led_test.v			// 配置板上LED，确保bit文件正常写入
-NO_DOWNSAMP.v		// 无下采样
-NO_INTERPOLATION.v	// 无插值直接输出
-rstpulse.v			// 复位脉冲生成
-top.v				// 有下采样与插值top module
-top_nosp.v			// 无下采样与插值top module
-top_nosp_tb.v		// testbench, 设置SAMPLE_RATE即可测试有下采样和插值的top module
+ADC_DRIVER.v        // ADC驱动
+DAC_DRIVER.v        // DAC驱动
+DDS_wrapper.v       // 测试用DDS模块，可选择输出signed or unsigned的数据
+DOWNSAMP.v          // 下采样模块，可配置参数为SAMPLE_RATE. 即每隔2^(SAMPLE_RATE)输出一次
+HALF_AMP.v          // 测试用DSP模块，目前配置为原样输出
+INTERPOLATION.v     // 插值模块，同样配置参数为SAMPLE_RATE
+led_test.v          // 配置板上LED，确保bit文件正常写入
+NO_DOWNSAMP.v       // 无下采样
+NO_INTERPOLATION.v  // 无插值直接输出
+rstpulse.v          // 复位脉冲生成
+top.v               // 有下采样与插值top module
+top_nosp.v          // 无下采样与插值top module
+top_nosp_tb.v       // testbench, 设置SAMPLE_RATE即可测试有下采样和插值的top module
 ```
 
 ## 注意事项
