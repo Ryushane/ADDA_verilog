@@ -5,7 +5,7 @@
 // 
 // Create Date: 2019/7/12 10:01:06
 // Design Name: 
-// Module Name: Upsampling
+// Module Name: INTERPOLATION
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module interpolation#(
+module INTERPOLATION#(
     parameter SAMPLE_RATE = 4,
     parameter DATA_WIDTH = 14
     )
@@ -53,19 +53,6 @@ module interpolation#(
     wire signed[DATA_WIDTH-1:0] s_dataIn;
     assign dataIn_hbit = (dataIn[DATA_WIDTH-1] == 1) ? 1'b0 : 1'b1;
     assign s_dataIn = {dataIn_hbit, dataIn[DATA_WIDTH-2:0]};
-
-
-
-    // wire signed[DATA_WIDTH-1+SAMPLE_RATE:0] us_out[(1<<SAMPLE_RATE)-1:0];
-
-    // reg signed inter_data;
-
-    // wire us_data_us;
-    // wire sign_flag;
-    // assign sign_flag = (latdata > predata) ? 1'b1 : 1'b0;
-    // assign us_data_us = {}
-
-    // wire sign_flag;
 
     always @(posedge clk) begin
         if(rst) begin
@@ -131,29 +118,4 @@ module interpolation#(
         end
     end
 
-
-
-
-    // assign sign_flag = (latdata > predata) ? 1'b1 : 1'b0;
-    // always @(posedge clk) begin
-    //     if(rst)
-    //         interval <= 0;
-    //     else if(us_counter == (2<<SAMPLE_RATE) && ena)
-    //         interval <= (latdata - predata) >> SAMPLE_RATE; 
-    // end
-    // assign interval = (latdata_ext - predata_ext) >> SAMPLE_RATE;
-
-
-    // generate
-    //     genvar i;
-    //     assign us_out[0] = predata_ext;
-    //     for(i=1; i<(1<<SAMPLE_RATE); i=i+1) begin : wiretech
-    //         assign us_out[i] = us_out[i-1] + interval;
-    //     end
-    // endgenerate
-
-    // always @(posedge clk) begin
-    //     if(rst)
-    //         ;
-    //     else if()
 endmodule

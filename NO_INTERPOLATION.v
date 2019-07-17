@@ -5,7 +5,7 @@
 // 
 // Create Date: 2019/7/12 10:01:06
 // Design Name: 
-// Module Name: NO_DOWNSAMP
+// Module Name: interpolation
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -19,21 +19,17 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module NO_DOWNSAMP#(
+module NO_INTERPOLATION#(
     parameter DATA_WIDTH = 14
-)
-(
-    input signed[DATA_WIDTH-1:0] dataIn,
-    output[DATA_WIDTH-1:0] dsoutdata,
-    output out_en,    
-    input outbusy
-);
-    assign out_en = !outbusy;
-    wire hbit; 
-    wire[DATA_WIDTH-1:0] us_dataIn;
-    assign hbit = (dataIn[DATA_WIDTH-1] == 1) ? 1'b0 : 1'b1;
-    assign us_dataIn = { hbit, dataIn[DATA_WIDTH-2:0]};
+    )
+    (
+    input ena, // 接上一级fifo的above half, above half 就算 rst_done，然后一直传输
+    output rd_en,
+    input[DATA_WIDTH-1:0] dataIn, // unsigned type
+    output [DATA_WIDTH-1:0] inter_data // unsigned type
+    );
 
-    assign dsoutdata = us_dataIn;
+    assign rd_en = ena;
+    assign inter_data = dataIn;
     
 endmodule

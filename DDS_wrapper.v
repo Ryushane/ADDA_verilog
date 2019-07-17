@@ -5,7 +5,7 @@
 //
 // Create Date: 2017/10/14 14:43:25
 // Design Name:
-// Module Name: Signal_DDS_tb
+// Module Name: DDS_wrapper
 // Project Name:
 // Target Devices:
 // Tool Versions:

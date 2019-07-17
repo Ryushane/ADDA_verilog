@@ -34,4 +34,5 @@ module HALF_AMP#(
 
     assign ena = !(infifo_almst_empty || outfifo_almst_full || inbusy);
     assign dataOut = (dataIn >> (SAMPLE_RATE + 1));
+    // assign dataOut = (dataIn >> (SAMPLE_RATE));
 endmodule

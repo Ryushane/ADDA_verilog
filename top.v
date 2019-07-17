@@ -181,11 +181,11 @@ module top#(
 
     wire[DATA_WIDTH-1:0] inter_data;
 
-    interpolation #(
+    INTERPOLATION #(
         .SAMPLE_RATE(SAMPLE_RATE), 
         .DATA_WIDTH(DATA_WIDTH)
         )
-        interpolation(
+        INTERPOLATION(
         .clk                             ( clk     ),
         .rst                             ( rst   ),
         .ena                             ( outfifo_almst_full),
@@ -215,7 +215,7 @@ module top#(
         .probe0(adcdatA),
         .probe1(adcdatB),
         .probe2(dsoutdata),
-        .probe3(outrd_en),
+        .probe3(outrd_data),
         .probe4(inter_data)
     );
 

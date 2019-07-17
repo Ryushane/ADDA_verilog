@@ -5,7 +5,7 @@
 // 
 // Create Date: 2019/07/16 17:18:01
 // Design Name: 
-// Module Name: top
+// Module Name: top_nosp
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -21,7 +21,8 @@
 
 
 module top_nosp#(
-    parameter       DATA_WIDTH = 14
+    parameter       DATA_WIDTH = 14,
+    parameter       SAMPLE_RATE = 0
 )
 (
     input clk_in,
@@ -108,8 +109,20 @@ module top_nosp#(
         .adcdatB(adcdatB)
     );
 
+    // // DDS_Test
+    // wire signed[DATA_WIDTH-1:0] dds_out;
+    // DDS_wrapper#(.SAMPLE_RATE(SAMPLE_RATE)
+    // ) 
+    // DDS_wrapper
+    // (
+    //     .clk (clk ), // input wire aclk
+    //     .rst (rst),
+    //     .dds_out (dds_out) // output wire [31 : 0] dds_out
+    // );
 
-    wire[DATA_WIDTH-1:0] dsoutdata;
+
+
+    wire[DATA_WIDTH-1+SAMPLE_RATE:0] dsoutdata;
     NO_DOWNSAMP #(
         .DATA_WIDTH(DATA_WIDTH)
     )
@@ -122,10 +135,10 @@ module top_nosp#(
     ); 
 
 
-    wire[DATA_WIDTH-1:0] inrd_data;
-    fifo_generator_in infifo(
+    wire[DATA_WIDTH-1+SAMPLE_RATE:0] inrd_data;
+    fifo_generator_in_ns infifo(
         .rst(rst),
-        .wr_clk(clkadc),
+        .wr_clk(clk),
         .wr_en(out_en),
         .din(dsoutdata),
         
@@ -158,7 +171,7 @@ module top_nosp#(
 
     wire[DATA_WIDTH-1:0] outrd_data;
 
-    fifo_generator_out outfifo(
+    fifo_generator_out_ns outfifo(
         .srst(rst),
         .clk(clk),
         .wr_en(dsp_en),
@@ -175,14 +188,11 @@ module top_nosp#(
 
     wire[DATA_WIDTH-1:0] inter_data;
 
-    interpolation #(
-        .SAMPLE_RATE(SAMPLE_RATE), 
+    NO_INTERPOLATION #(
         .DATA_WIDTH(DATA_WIDTH)
         )
-        interpolation(
-        .clk                             ( clk     ),
-        .rst                             ( rst   ),
-        .ena                             ( outfifo_almst_full),
+        no_interpolation(
+        .ena                             ( 1 ),
         .rd_en                           ( outrd_en   ),
         .dataIn                          ( outrd_data ),
         .inter_data                      ( inter_data )
@@ -204,7 +214,7 @@ module top_nosp#(
         .dac_sleep_out           ( dac_sleep_out         )
 );
 
-    ila_top ila_top(
+    ila_nosp ila_nosp(
         .clk(clk),
         .probe0(adcdatA),
         .probe1(adcdatB),
