@@ -2,9 +2,7 @@
 
 ## 总体架构
 
-![1563273180665](../../../Typora/%E7%94%B5%E8%B5%9B/assets/1563273180665.png)
-
-
+![block_diagram](https://github.com/Ryushane/ADDA_verilog/blob/master/Pictures/System%20block%20diagram.png)
 
 ## 文件列表
 
